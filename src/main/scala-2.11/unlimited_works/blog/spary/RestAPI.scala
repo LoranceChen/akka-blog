@@ -40,11 +40,13 @@ trait RestRoutes extends SigninApi with BlogApi
   }
   def crossDomain = fcross("http://akka.scalachan.com:4000")
 
-  val supportDomains = List(
+  val supportDomains = Set(
     "http://akka.scalachan.com:4000",
     "https://akka.scalachan.com:4000",
     "http://www.scalachan.com:4000",
-    "https://www.scalachan.com:4000"
+    "https://www.scalachan.com:4000",
+    "https://www.scalachan.com",
+    "https://www.scalachan.com"
   )
 
   def signinRoute = noop { raw =>
@@ -66,7 +68,7 @@ trait RestRoutes extends SigninApi with BlogApi
           }
         }(raw)
       case  None =>
-        complete(StatusCodes.Forbidden)(raw)
+        complete(StatusCodes.Forbidden, "the origin not support")(raw)
     }
   }
 }
