@@ -1,7 +1,11 @@
-package unlimited_works.blog.spary
+package unlimited_works.blog.spray
 
 import spray.json.DefaultJsonProtocol
-
+import spray.httpx.unmarshalling._
+import spray.httpx.marshalling._
+import spray.http._
+import HttpCharsets._
+import MediaTypes._
 /**
   *
   */

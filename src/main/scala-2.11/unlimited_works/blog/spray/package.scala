@@ -3,6 +3,6 @@ package unlimited_works.blog
 /**
   *
   */
-package object spary {
+package object spray {
 
 }

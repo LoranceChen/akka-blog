@@ -31,9 +31,13 @@ libraryDependencies ++= Seq(
   "org.mongodb.scala" %% "mongo-scala-driver" % "1.1.1",
   "net.liftweb" %% "lift-json" % "3.0-M8",
 
+  "io.reactivex" %% "rxscala" % "0.26.2",
+
   "io.spray" %% "spray-can" % "1.3.3",
   "io.spray" %% "spray-routing" % "1.3.3",
-  "io.spray" % "spray-testkit" % "1.3.3" % "test"
+  "net.debasishg" %% "redisclient" % "3.0"
+
+  //  "io.spray" % "spray-testkit" % "1.3.3" % "test"
 
   //finatra
 //  "com.twitter" %% "finatra-http" % versions.finatra,
@@ -64,3 +68,5 @@ resolvers ++= Seq(
   "Twitter" at "http://maven.twttr.com",
   "spray repo" at "http://repo.spray.io"
 )
+
+unmanagedBase :=  baseDirectory.value / "mylib"

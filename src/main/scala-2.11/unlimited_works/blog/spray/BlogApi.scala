@@ -1,4 +1,4 @@
-package unlimited_works.blog.spary
+package unlimited_works.blog.spray
 
 import akka.actor.ActorRef
 import akka.util.Timeout
