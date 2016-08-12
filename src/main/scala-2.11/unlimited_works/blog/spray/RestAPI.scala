@@ -49,7 +49,7 @@ trait RestRoutes extends SigninApi with BlogApi
   val supportDomains = Set(
     "http://www.scalachan.com:4000",
     "https://www.scalachan.com:4000",
-    "https://www.scalachan.com",
+    "http://www.scalachan.com",
     "https://www.scalachan.com"
   )
 
@@ -65,6 +65,7 @@ trait RestRoutes extends SigninApi with BlogApi
           path("signin" / "remember-me.json"){
             post{
               formFields('account, 'password) { (account, password) =>
+                println("hi!")
                 SessionMultiDomain.getAccountId(raw.request) match {
                   case Some(_) =>
                     rememberMe(raw.request, account, password)
@@ -73,7 +74,7 @@ trait RestRoutes extends SigninApi with BlogApi
                     }
                   case None =>
                     respondWithMediaType(spray.http.MediaTypes.`application/json`) {
-                      complete(compactRender("result" -> 400: JObject))
+                      complete(compactRender("result" -> 4002: JObject))
                     }
                 }
               }

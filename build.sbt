@@ -70,3 +70,5 @@ resolvers ++= Seq(
 )
 
 unmanagedBase :=  baseDirectory.value / "mylib"
+
+mainClass in assembly := Some("unlimited_works.blog.spray.Main")
