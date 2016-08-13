@@ -66,16 +66,16 @@ trait RestRoutes extends SigninApi with BlogApi
             post{
               formFields('account, 'password) { (account, password) =>
                 println("hi!")
-                SessionMultiDomain.getAccountId(raw.request) match {
-                  case Some(_) =>
-                    rememberMe(raw.request, account, password)
-                    respondWithMediaType(spray.http.MediaTypes.`application/json`) {
-                      complete(compactRender("result" -> 200: JObject))
-                    }
-                  case None =>
-                    respondWithMediaType(spray.http.MediaTypes.`application/json`) {
-                      complete(compactRender("result" -> 4002: JObject))
-                    }
+                onSuccess(SessionMultiDomain.getAccountId(raw.request)) {
+                    case Some(_) =>
+                      rememberMe(raw.request, account, password)
+                      respondWithMediaType(spray.http.MediaTypes.`application/json`) {
+                        complete(compactRender("result" -> 200: JObject))
+                      }
+                    case None =>
+                      respondWithMediaType(spray.http.MediaTypes.`application/json`) {
+                        complete(compactRender("result" -> 4002: JObject))
+                      }
                 }
               }
             }
@@ -92,30 +92,30 @@ trait RestRoutes extends SigninApi with BlogApi
               }
             }
           }
-
-
+//
+//
 //          path("signin.json") {
 //            post {
 //              formFields('account, 'password) { (account, password) =>
 //
 //                // that's a good idea unwrap Future immidentilly
-//                val sign = onSuccess(signin(account, password)) { x =>
-//                  println(s"AccountVerifyResult - $x")
-//                  if (x.result.nonEmpty) {
-//                    val key = Helpers.stringTo32ByteMD5(account)
-//                    val accountId = x.result.get._id.`$oid`
-//                    SessionMultiDomain.puts(key, Map("accountId" -> accountId))
-//                    respondWithHeader(Cookie(HttpCookie(name = "GOD_SESSION", content = key, maxAge = Some(3600 * 24 * 365), domain = Some(".scalachan.com"), httpOnly = false))) {
-//                      respondWithMediaType(spray.http.MediaTypes.`application/json`) {
-//                         complete(compactRender("result" -> 200)) //signinRsp
-//                      }
-//                    }
-//
-//                  } else {
+//                val sign = onSuccess(Future("a")) { x =>
+////                  println(s"AccountVerifyResult - $x")
+////                  if (x.result.nonEmpty) {
+////                    val key = Helpers.stringTo32ByteMD5(account)
+////                    val accountId = x.result.get._id.`$oid`
+////                    SessionMultiDomain.puts(key, Map("accountId" -> accountId))
+////                    respondWithHeader(Cookie(HttpCookie(name = "GOD_SESSION", content = key, maxAge = Some(3600 * 24 * 365), domain = Some(".scalachan.com"), httpOnly = false))) {
+////                      respondWithMediaType(spray.http.MediaTypes.`application/json`) {
+////                         complete(compactRender("result" -> 200)) //signinRsp
+////                      }
+////                    }
+////
+////                  } else {
 //                    respondWithMediaType(spray.http.MediaTypes.`application/json`) {
 //                      complete(compactRender((("result" -> 400): JObject) ~ ("msg" -> "身份验证失败"): JObject)) //signinRsp
 //                    }
-//                  }
+////                  }
 //                }
 //                sign
 ////                spray.httpx.ResponseTransformation

@@ -35,7 +35,8 @@ libraryDependencies ++= Seq(
 
   "io.spray" %% "spray-can" % "1.3.3",
   "io.spray" %% "spray-routing" % "1.3.3",
-  "net.debasishg" %% "redisclient" % "3.0"
+//  "net.debasishg" %% "redisclient" % "3.0",
+  "com.livestream" %% "scredis" % "2.0.6"
 
   //  "io.spray" % "spray-testkit" % "1.3.3" % "test"
 
@@ -66,9 +67,10 @@ libraryDependencies ++= Seq(
 
 resolvers ++= Seq(
   "Twitter" at "http://maven.twttr.com",
-  "spray repo" at "http://repo.spray.io"
+  "spray repo" at "http://repo.spray.io",
+  "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
 )
 
-unmanagedBase :=  baseDirectory.value / "mylib"
+//unmanagedBase :=  baseDirectory.value / "mylib"
 
 mainClass in assembly := Some("unlimited_works.blog.spray.Main")
