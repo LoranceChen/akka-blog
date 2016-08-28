@@ -8,6 +8,12 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
 
+/**
+ * 可能遇到的错误:
+ * javax.net.ssl.SSLHandshakeException: Received fatal alert: handshake_failure
+ * 解决方案参见:
+ * http://www.oschina.net/question/2282830_247657
+ */
 public class JavaEmail {
     public static void sendMail(String fromMail, String user, String password,
                                 String toMail,
