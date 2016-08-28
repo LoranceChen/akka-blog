@@ -9,3 +9,6 @@ target/
 #TEMP FILE
 *.log
 *.test
+
+#online config
+online.conf

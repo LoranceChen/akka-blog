@@ -14,4 +14,7 @@ trait BlogApi {
   implicit def executionContext: ExecutionContext
   implicit def requestTimeout: Timeout
 
+  def searchMyBlogByTags(accountId: String, tags: Seq[String]) = {
+    
+  }
 }

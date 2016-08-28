@@ -36,7 +36,8 @@ libraryDependencies ++= Seq(
   "io.spray" %% "spray-can" % "1.3.3",
   "io.spray" %% "spray-routing" % "1.3.3",
 //  "net.debasishg" %% "redisclient" % "3.0",
-  "com.livestream" %% "scredis" % "2.0.6"
+  "com.livestream" %% "scredis" % "2.0.6",
+  "javax.mail" % "mail" % "1.4.7"
 
   //  "io.spray" % "spray-testkit" % "1.3.3" % "test"
 
