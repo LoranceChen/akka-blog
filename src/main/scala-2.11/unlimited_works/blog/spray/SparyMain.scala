@@ -1,18 +1,13 @@
 package unlimited_works.blog.spray
 
 import akka.actor.ActorSystem
-import akka.event.Logging
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.Http.ServerBinding
-import akka.stream.ActorMaterializer
 import akka.util.Timeout
-import com.typesafe.config.{ConfigFactory, Config}
-import spray.http.HttpHeaders.RawHeader
+import com.typesafe.config.Config
 import spray.routing
 
-import scala.concurrent.Future
-import spray.routing.{HttpService, SimpleRoutingApp}
+import spray.routing.HttpService
 
+import unlimited_works.blog.util.{Config => BlogConfig}
 /**
   *
   */
@@ -52,11 +47,12 @@ trait RequestTimeout {
 
 object Main extends App with routing.SimpleRoutingApp with RestApi with RequestTimeout{
   implicit val system = ActorSystem("my-system")
-  val config = ConfigFactory.load()
+  val blogConfig = BlogConfig.blogConf
+  val akkaConfig = BlogConfig.devBackToOnline
 
-  val host = config.getString("http.host") // Gets the host and a port from the configuration
-  val port = config.getInt("http.port")
-  override implicit val timeout: Timeout = requestTimeout(config)
+  val host = blogConfig.getString("http.host") // Gets the host and a port from the configuration
+  val port = blogConfig.getInt("http.port")
+  override implicit val timeout: Timeout = requestTimeout(akkaConfig)
 
   startServer(interface = host, port = port) {
     routes

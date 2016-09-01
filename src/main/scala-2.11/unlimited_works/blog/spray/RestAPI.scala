@@ -1,10 +1,12 @@
 package unlimited_works.blog.spray
 
+import java.util.UUID
+
 import akka.actor.{ActorRef, ActorSystem}
 import akka.http.scaladsl.model.HttpHeader.ParsingResult.Ok
 import shapeless.~>
-import spray.http.{HttpCookie, HttpHeader, StatusCodes}
-import spray.http.HttpHeaders.{Cookie, RawHeader}
+import spray.http.{DateTime, HttpCookie, HttpHeader, StatusCodes}
+import spray.http.HttpHeaders.{`Set-Cookie`, Cookie, RawHeader}
 import spray.httpx.unmarshalling.FormDataUnmarshallers
 import spray.routing.directives.RespondWithDirectives
 
@@ -13,7 +15,8 @@ import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
 import spray.routing.{RequestContext, Route}
 import spray.routing.Directives._
-import unlimited_works.blog.akka.Signin
+import unlimited_works.blog.akka.{DbConnector, Signin}
+import unlimited_works.blog.util.mail.Email
 import unlimited_works.blog.util.{SessionMultiDomain, Config}
 import scala.concurrent.Future
 
@@ -27,7 +30,8 @@ trait RestApi
 
   implicit val system: ActorSystem
 
-  def createSignin: ActorRef = system.actorOf(Signin.props)
+  def dbConnector: ActorRef = system.actorOf(DbConnector.props)
+  def createSignin: ActorRef = system.actorOf(Signin.props(dbConnector))
   def createBlog: ActorRef = ???
 }
 
@@ -89,6 +93,49 @@ trait RestRoutes extends SigninApi with BlogApi
               }
               respondWithMediaType(spray.http.MediaTypes.`application/json`) {
                 complete(rstTojson.map(compactRender))
+              }
+            }
+          } ~
+          //mail format -> mail not used
+          path("register" / "send-email.json") {
+            post{
+              formField('tomail) { tomail =>
+                if(Email.checkFormat(tomail)) {
+                  onSuccess(checkMailNotUsed(tomail)) {
+                    case true =>
+                      val visitorCookie = //raw.request.cookies.find(_.name == Config.CookieSession.VISITOR).map(_.content).getOrElse{
+                        UUID.randomUUID().toString.filterNot(_ == '-')
+
+                      onSuccess(registerMail(visitorCookie, tomail)) {
+                        case None =>
+                          setCookie(HttpCookie(
+                            name = Config.CookieSession.VISITOR,
+                            content = visitorCookie,
+                            maxAge = Some(86400),
+                            domain = Some(".scalachan.com"),
+                            path = Some("/"),
+                            expires = Some(DateTime(System.currentTimeMillis() + 86400)),
+                            httpOnly = false
+                          )) {
+                            respondWithMediaType(spray.http.MediaTypes.`application/json`) {
+                              complete(compactRender("result" -> 200))
+                            }
+                          }
+                        case Some(error) =>
+                          respondWithMediaType(spray.http.MediaTypes.`application/json`) {
+                            complete(compactRender(JObject(JField("result", JInt(400)), JField("msg", s"发送失败 - $error"))))
+                          }
+                      }
+                    case false =>
+                      respondWithMediaType(spray.http.MediaTypes.`application/json`) {
+                        complete(compactRender(JObject(JField("result", JInt(400)), JField("msg", "邮箱已被注册"))))
+                      }
+                  }
+                } else {
+                  respondWithMediaType(spray.http.MediaTypes.`application/json`) {
+                    complete(compactRender(JObject(JField("result", JInt(400)), JField("msg", "邮箱格式不正确"))))
+                  }
+                }
               }
             }
           }

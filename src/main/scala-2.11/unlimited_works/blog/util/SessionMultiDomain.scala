@@ -2,7 +2,6 @@ package unlimited_works.blog.util
 
 //import com.redis.RedisClient
 import spray.http.HttpRequest
-import spray.routing.RequestContext
 import scredis._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -11,7 +10,7 @@ import scala.concurrent.{ExecutionContext, Future}
   * should be save a specify place,such as a memcache server
   */
 object SessionMultiDomain {
-  var redisClient =  Redis() //new RedisClient("127.0.0.1", 6379)
+  var redisClient = BlogRedis.client //new RedisClient("127.0.0.1", 6379)
 
   def puts(id1: String, data: Map[String, String])(implicit ec: ExecutionContext) : Future[Unit] = {
     redisClient.hmSet(id1, data)
@@ -53,5 +52,4 @@ object SessionMultiDomain {
       y
     }).map(_.flatten)
   }
-
 }
