@@ -3,8 +3,6 @@ package unlimited_works.blog.spray
 import java.util.UUID
 
 import akka.actor.{ActorRef, ActorSystem}
-import akka.http.scaladsl.model.HttpHeader.ParsingResult.Ok
-import shapeless.~>
 import spray.http.{DateTime, HttpCookie, HttpHeader, StatusCodes}
 import spray.http.HttpHeaders.{`Set-Cookie`, Cookie, RawHeader}
 import spray.httpx.unmarshalling.FormDataUnmarshallers
@@ -13,12 +11,11 @@ import spray.routing.directives.RespondWithDirectives
 import akka.util.Timeout
 import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
-import spray.routing.{RequestContext, Route}
+import spray.routing.Route
 import spray.routing.Directives._
-import unlimited_works.blog.akka.{DbConnector, Signin}
+import unlimited_works.blog.akka.{EmailService, DbConnector, Signin}
 import unlimited_works.blog.util.mail.Email
 import unlimited_works.blog.util.{SessionMultiDomain, Config}
-import scala.concurrent.Future
 
 trait RestApi
   extends RestRoutes {
@@ -29,9 +26,9 @@ trait RestApi
   implicit def liftJsonFormats: Formats = net.liftweb.json.DefaultFormats
 
   implicit val system: ActorSystem
-
   def dbConnector: ActorRef = system.actorOf(DbConnector.props)
-  def createSignin: ActorRef = system.actorOf(Signin.props(dbConnector))
+  def emailService: ActorRef = system.actorOf(EmailService.props)
+  def createSignin: ActorRef = system.actorOf(Signin.props(dbConnector, emailService))
   def createBlog: ActorRef = ???
 }
 

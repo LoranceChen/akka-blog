@@ -77,8 +77,10 @@ public class JavaEmail {
 //        props.put("mail.smtp.ssl.enable", "true");
 //        props.put("mail.transport.protocol", "smtps");
 
-        props.put("mail.smtp.host", "smtp.163.com");//存储发送邮件服务器的信息
-//        props.put("mail.smtp.port", "587");
+//        props.put("mail.smtp.host", "smtp.163.com");//存储发送邮件服务器的信息
+//        props.put("mail.smtp.host", "email-smtp.us-west-2.amazonaws.com");//存储发送邮件服务器的信息
+        props.put("mail.smtp.host", "smtp.ym.163.com");//存储发送邮件服务器的信息
+        props.put("mail.smtp.port", "25");
 
         props.put("mail.smtp.auth", "true");
 //        props.put("mail.smtp.starttls.enable", "true");
