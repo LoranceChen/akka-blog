@@ -41,7 +41,7 @@ trait SigninApi {
   }
 
   def registerMail(visitorS: String, toMail: String) = {
-    signinActor.ask(Signin.GetRegisterMail(visitorS, toMail))(myTimeout).mapTo[Option[String]]
+    signinActor.ask(Signin.GetRegisterByMail(visitorS, toMail))(myTimeout).mapTo[Option[String]]
   }
 
   def checkMailNotUsed(mail: String) = {

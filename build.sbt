@@ -3,7 +3,7 @@ organization := "unlimited_works"
 scalaVersion := "2.11.8"
 parallelExecution in ThisBuild := false
 
-version := "1.0"
+version := "1.0.2"
 
 lazy val versions = new {
   val finatra = "2.2.0"

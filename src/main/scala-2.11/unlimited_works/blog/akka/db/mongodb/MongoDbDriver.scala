@@ -53,5 +53,5 @@ trait DriverHelper {
 
 object MongoDbDriver {
 
-  lazy val mongoInstance = new MongoDbDriver(Config.Mongo.connStr)
+  val mongoInstance = new MongoDbDriver(Config.Mongo.connStr)
 }
