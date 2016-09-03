@@ -94,7 +94,7 @@ public class JavaEmail {
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(toMail));//设置收件人,并设置其接收类型为TO
         message.setSubject(mailTitle);//设置标题
         //设置信件内容
-        message.setContent(mailContent, "text/html;charset=gbk"); //发送HTML邮件，内容样式比较丰富
+        message.setContent(mailContent, "text/html;charset=UTF-8"); //发送HTML邮件，内容样式比较丰富
         message.setSentDate(new Date());//设置发信时间
         message.saveChanges();//存储邮件信息
 
