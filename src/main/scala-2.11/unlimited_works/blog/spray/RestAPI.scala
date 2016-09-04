@@ -96,6 +96,7 @@ trait RestRoutes extends SigninApi with BlogApi
           //mail format -> mail not used
           path("register" / "send-email.json") {
             post{
+              //todo filter tomail can be Empty string
               formField('tomail) { tomail =>
                 if(Email.checkFormat(tomail)) {
                   onSuccess(checkMailNotUsed(tomail)) {
