@@ -16,7 +16,7 @@ object Email {
     blocking(try{
       val password = Config.Email.password
       val user = Config.Email.user
-      JavaEmail.sendMail("no-reply@scalachan.com", user, password, to, s"[ScalaChan]获取注册邀请码", """欢迎关注ScalaChan的博客社区, 您的邀请码是:<b style="color:red">""" + inviteCode + s"</b>,请在24小时内使用.如果未订阅该邮件,请忽略 ;) <br> " +
+      JavaEmail.sendMail("no-reply@scalachan.com", user, password, to, s"[ScalaChan]获取注册邀请码", """欢迎关注ScalaChan博客社区, 您的邀请码是:<b style="color:red">""" + inviteCode + s"</b>,请在24小时内使用.如果未订阅该邮件,请忽略 ;) <br> " +
         s"""<img src="https://leanote.com/api/file/getImage?fileId=57c97630ab644135ea06caf3" alt="scalachan" title="">""")
       None
     } catch {
