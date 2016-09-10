@@ -31,12 +31,10 @@ libraryDependencies ++= Seq(
   "org.mongodb.scala" %% "mongo-scala-driver" % "1.1.1",
   "net.liftweb" %% "lift-json" % "3.0-M8",
 
-  "io.reactivex" %% "rxscala" % "0.26.2",
-
   "io.spray" %% "spray-can" % "1.3.3",
   "io.spray" %% "spray-routing" % "1.3.3",
 //  "net.debasishg" %% "redisclient" % "3.0",
-  "com.livestream" %% "scredis" % "2.0.6",
+  "com.livestream" %% "scredis" % "2.0.8",
   "javax.mail" % "mail" % "1.4.7"
 
   //  "io.spray" % "spray-testkit" % "1.3.3" % "test"
@@ -56,7 +54,7 @@ libraryDependencies ++= Seq(
 //
 //  "com.twitter" %% "finatra-http" % versions.finatra % "test" classifier "tests",
 //  "com.twitter" %% "finatra-jackson" % versions.finatra % "test" classifier "tests",
-//  "com.twitter" %% "inject-server" % versions.finatra % "test" classifier "tests",
+//  "com.twitter" %% "inject-server" % versions.finatr % "test" classifier "tests",
 //  "com.twitter" %% "inject-app" % versions.finatra % "test" classifier "tests",
 //  "com.twitter" %% "inject-core" % versions.finatra % "test" classifier "tests",
 //  "com.twitter" %% "inject-modules" % versions.finatra % "test" classifier "tests",
